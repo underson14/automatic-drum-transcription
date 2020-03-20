@@ -11,7 +11,7 @@ if command -v python3 &>/dev/null; then
         echo OK
         source venv/bin/activate
         pip install -r requirements.txt
-        python3 ./src/RessourcePredictor.py
+        python3 ./src/start.py
     else
         echo "Could not execute python -m venv ./venv"
         echo "Edit the script. Change the 'python' command to the one calling python3."
