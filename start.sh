@@ -10,6 +10,7 @@ if command -v python3 &>/dev/null; then
     if [ $? -eq 0 ]; then
         echo OK
         source venv/bin/activate
+        pip install --upgrade pip
         pip install -r requirements.txt
         python3 ./src/start.py
     else
