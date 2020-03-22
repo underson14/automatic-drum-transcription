@@ -6,6 +6,9 @@ import sys
 class Config:
     VERBOSE = 0
     DEBUG = 0
+    DATA_ROOT_DIRECTORY = ''
+    DATA_RAW_DIRECTORY = ''
+    DATA_RESULTS_DIRECTORY = ''
 
 
 def read_conf():
