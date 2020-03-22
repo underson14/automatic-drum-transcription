@@ -23,16 +23,16 @@ def read_conf():
         Config.DATA_RAW_DIRECTORY = config['DATA']['raw_directory']
         Config.DATA_RESULTS_DIRECTORY = config['DATA']['results_directory']
 
-        Config.FILE_RUNTIME_MEAN_SUMMARY = config['FILE']['runtime_mean_summary_name']
-        Config.FILE_RUNTIME_VAR_SUMMARY = config['FILE']['runtime_var_summary_name']
-        Config.FILE_MEMORY_MEAN_SUMMARY = config['FILE']['memory_mean_summary_name']
-        Config.FILE_MEMORY_VAR_SUMMARY = config['FILE']['memory_var_summary_name']
+        # Config.FILE_RUNTIME_MEAN_SUMMARY = config['FILE']['runtime_mean_summary_name']
+        # Config.FILE_RUNTIME_VAR_SUMMARY = config['FILE']['runtime_var_summary_name']
+        # Config.FILE_MEMORY_MEAN_SUMMARY = config['FILE']['memory_mean_summary_name']
+        # Config.FILE_MEMORY_VAR_SUMMARY = config['FILE']['memory_var_summary_name']
 
         validate_config()
         return True
     except KeyError as ex:
-        print(f"Error occurred for key: {ex}")
-        print(f"Stopping tool.")
+        print(f"Config Error occurred for key: {ex}")
+        print(f"Stopping application.")
         sys.exit()
 
 
@@ -70,18 +70,18 @@ def validate_config():
         print("Please specify a valid Root Directory!")
         sys.exit()
 
-    if not Config.FILE_MEMORY_VAR_SUMMARY:
-        print(f"Please specify a valid name for FILE_MEMORY_VAR_SUMMARY ")
-        sys.exit()
+        # if not Config.FILE_MEMORY_VAR_SUMMARY:
+        #print(f"Please specify a valid name for FILE_MEMORY_VAR_SUMMARY ")
+        #sys.exit()
 
-    if not Config.FILE_MEMORY_MEAN_SUMMARY:
-        print(f"Please specify a valid name for FILE_MEMORY_MEAN_SUMMARY")
-        sys.exit()
+        # if not Config.FILE_MEMORY_MEAN_SUMMARY:
+        #print(f"Please specify a valid name for FILE_MEMORY_MEAN_SUMMARY")
+        #sys.exit()
 
-    if not Config.FILE_RUNTIME_VAR_SUMMARY:
-        print(f"Please specify a valid name for FILE_RUNTIME_VAR_SUMMARY")
-        sys.exit()
+        # if not Config.FILE_RUNTIME_VAR_SUMMARY:
+        #print(f"Please specify a valid name for FILE_RUNTIME_VAR_SUMMARY")
+        #sys.exit()
 
-    if not Config.FILE_RUNTIME_MEAN_SUMMARY:
-        print(f"Please specify a valid name for FILE_RUNTIME_MEAN_SUMMARY")
-        sys.exit()
+        # if not Config.FILE_RUNTIME_MEAN_SUMMARY:
+        #print(f"Please specify a valid name for FILE_RUNTIME_MEAN_SUMMARY")
+        #sys.exit()
