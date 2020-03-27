@@ -3,13 +3,22 @@ import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+def prepare_data(path):
+    wav, sr = librosa.load(path)
+    wav, event_start_positions, event_end_positions = get_slice_positions(wav, sr)
+    slices = get_audio_slices(wav,event_start_positions, event_end_positions)
+    specs = get_spectrograms(slices, sr)
+    specs = reshape_specs(specs)
+
+    return specs
+
 def auto_slice(path):
     wav, sr = librosa.load(path)
     wav, event_start_positions, event_end_positions = get_slice_positions(wav, sr)
     slices = get_audio_slices(wav,event_start_positions, event_end_positions)
 
     return slices
-
 
 def get_slice_positions(wav, sr):
     """automatically detects peaks in wav and chops it into 
@@ -42,14 +51,50 @@ def get_audio_slices(wav, event_start_positions, event_end_positions):
     return slices
 
 
-def get_spectrograms(slices):
+def get_spectrograms(slices, sr):
     specs = []
     for slice in slices:
-        spec = np.abs(librosa.stft(slice))
+        spec = librosa.feature.melspectrogram(y=slice, sr=sr, n_mels=88,
+                                   fmax=20000)
         specs.append(spec)
 
     return specs
+
+def reshape_specs(specs):
+    reshaped = []
+    for spec in specs:
+        spec = __reshape_spec(spec)
+        reshaped.append(spec)
+
+    return reshaped
+
+def __reshape_spec(spec, t = 1):
+    """reshape mel spectrogram to have fixed
+    length t. Either truncate at cutoff if too long
+    or add silence if too short.
     
+    Arguments:
+        spec {array} -- mel spectrogram
+    
+    Keyword Arguments:
+        t {float} -- sample length (default: {1.5})
+    
+    Returns:
+        array -- fixed length mel spectrogram
+    """
+    cutoff = librosa.time_to_frames(t)
+    last_frame = len(spec[1])
+    if cutoff < last_frame:
+        spec = np.delete(spec,slice(cutoff,last_frame),1)
+    elif cutoff > last_frame:
+        spec = np.pad(spec,((0,0),(0,cutoff-last_frame)))
+    else:
+        pass   
+
+    print(cutoff, spec.shape)
+    
+    return spec
+
 
 def plot_slices(path):
     wav, sr = librosa.load(path)
@@ -71,24 +116,21 @@ def plot_slices(path):
     plt.legend(frameon=True, framealpha=0.75)
     plt.show()
 
+
 def plot_slice(slice):
-    librosa.display.waveplot(slice)
-    spec = np.abs(librosa.stft(slice))
+    # librosa.display.waveplot(slice)
+    # spec = np.abs(librosa.stft(slice))
     plt.figure()
-    librosa.display.specshow(librosa.amplitude_to_db(spec, ref=np.max),
+    librosa.display.specshow(librosa.amplitude_to_db(ref=np.max, S = slice),
                             x_axis='time', y_axis='log')
     plt.title('Power spectrogram')
     plt.show()
 
-path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\drum-data-mvp\\rb1.1.wav"
-wav, sr = librosa.load(path)
-slices = auto_slice(path)
+path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\drum-data-mvp\\rb2.3.wav"
+# wav, sr = librosa.load(path)
+# slices = auto_slice(path)
+plot_slices(path)
+slices = prepare_data(path)
 
-
-librosa.display.waveplot(slices[0])
-D = np.abs(librosa.stft(slices[0]))
-plt.figure()
-librosa.display.specshow(librosa.amplitude_to_db(D, ref=np.max),
-                         x_axis='time', y_axis='log')
-plt.title('Power spectrogram')
-plt.show()
+for slice in slices:
+    print(slice.shape)
