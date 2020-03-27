@@ -10,6 +10,11 @@ python3 --version >nul 2>nul || (
 	exit 1;
 )
 
+python3.exe --version 2>nul | findstr /R /I /C:"^Python[ ]*[0-9]*[3-9]\." >nul 2>nul 
+IF %ERRORLEVEL% NEQ 0 (
+	echo Your Python Version is not supported! Use Python 3 or higher.
+	exit 1
+)
 
 IF NOT EXIST ./venv (
     python3 -m venv ./venv
