@@ -1,8 +1,8 @@
 @echo off
 IF NOT EXIST ./venv (
-    python -m venv ./venv
+    python3 -m venv ./venv
 )
 call ./venv/Scripts/activate.bat
 pip install --upgrade pip
 pip install -r requirements.txt
-python ./src/start.py --folder=$1
+python3 ./src/start.py --folder=%1
