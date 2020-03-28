@@ -3,7 +3,7 @@ import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
 
-def transform_audio(path):
+def transform_audio(path: str):
     """takes in a raw wav file and returns
     a melspectrogram of fixed length
     
@@ -18,7 +18,7 @@ def transform_audio(path):
 
     return spec
     
-def __get_spectrogram(path):
+def __get_spectrogram(path: str):
     """convert wav to spectrogram
     
     Arguments:
@@ -33,7 +33,7 @@ def __get_spectrogram(path):
 
     return spec
 
-def __reshape_spec(spec, t = 1.5):
+def __reshape_spec(spec: np.ndarray, t = 1.5):
     """reshape mel spectrogram to have fixed
     length t. Either truncate at cutoff if too long
     or add silence if too short.
@@ -58,7 +58,7 @@ def __reshape_spec(spec, t = 1.5):
     
     return spec
     
-def __plot_spec(spec):
+def __plot_spec(spec: np.ndarray):
     """plots for testing purposes.
     
     Arguments:
@@ -74,3 +74,7 @@ def __plot_spec(spec):
     plt.tight_layout() 
 
 
+path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\drum-data-mvp\\rb1.1.wav"
+spec = transform_audio(path)
+wav, sr = librosa.load(path)
+__plot_spec(spec)
