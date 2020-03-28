@@ -5,3 +5,5 @@ env/
 venv/*
 __pycache__
 _DS_Store
+start.sh
+start.bat
