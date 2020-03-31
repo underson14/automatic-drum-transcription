@@ -2,6 +2,7 @@ import librosa
 import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
+from pydub import AudioSegment
 
 def transform_audio(path: str):
     """takes in a raw wav file and returns
@@ -73,6 +74,19 @@ def __plot_spec(spec: np.ndarray):
     plt.title('Mel-frequency spectrogram')
     plt.tight_layout() 
 
+def __get_multiclass_wav(path: str, path2: str):
+    wav1 = AudioSegment.from_file(path)
+    wav2 = AudioSegment.from_file(path2)
+
+    combined = wav1.overlay(wav2)
+
+    combined.export("/path/to/combined.wav", format='wav')
+
+def __select_wavs(directory: list):
+    # randomly select two wavs of different class type.
+    # assign discrete probabilty of class selection to reflect
+    # prevalance. 
+    pass
 
 path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\drum-data-mvp\\rb1.1.wav"
 spec = transform_audio(path)
