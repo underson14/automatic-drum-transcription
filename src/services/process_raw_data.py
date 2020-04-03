@@ -58,6 +58,9 @@ def __reshape_spec(spec: np.ndarray, t = 1.5):
         pass   
     
     return spec
+
+def __spec_to_jpg(spec, name):
+
     
 def __plot_spec(spec: np.ndarray):
     """plots for testing purposes.
@@ -92,3 +95,23 @@ path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\d
 spec = transform_audio(path)
 wav, sr = librosa.load(path)
 __plot_spec(spec)
+
+
+def create_spectrogram(path, name):
+    plt.interactive(False)
+    wav, sample_rate = librosa.load(path, sr=None)
+    fig = plt.figure(figsize=[0.72,0.72])
+    ax = fig.add_subplot(111)
+    ax.axes.get_xaxis().set_visible(False)
+    ax.axes.get_yaxis().set_visible(False)
+    ax.set_frame_on(False)
+    S = librosa.feature.melspectrogram(y=wav, sr=sample_rate)
+    librosa.display.specshow(librosa.power_to_db(S, ref=np.max))
+    filename  = '/kaggle/working/train/' + name + '.jpg'
+    plt.savefig(filename, dpi=400, bbox_inches='tight',pad_inches=0)
+    plt.close()    
+    fig.clf()
+    plt.close(fig)
+    plt.close('all')
+
+
