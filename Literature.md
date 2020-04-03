@@ -2,6 +2,9 @@
 Great discussion of SOTA(2019) techniques and challeges for this task. Very useful!
 http://www.eecs.qmul.ac.uk/~ewerts/publications/2019_BenetosDixonDuanEwert_AutomaticMusicTranscription_IEEE-SPM.pdf
 
+#### Discussion of CNN feature map sizing for music applications
+http://www.jordipons.me/cnn-filter-shapes-discussion/
+
 #### AMT Example CNN and libraries
 Example of auto music transcription for polyphonic piano that has useful python libraries for audio and midi manipulation. It is a fundamentally different ML architecture than our approach (cnn vs rcc) but has many links to relevant signal processing resources. Need to investigate the structure of the example data in this repository.
 https://github.com/jsleep/wav2mid
