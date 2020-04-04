@@ -1,3 +1,1 @@
-ARG_FOLDER = ''
-
 FILE_PATHS = []
