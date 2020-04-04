@@ -34,7 +34,7 @@ def __get_spectrogram(path: str):
 
     return spec
 
-def __reshape_spec(spec: np.ndarray, t = 1.5):
+def __reshape_spec(spec: np.ndarray, time = 1.5):
     """reshape mel spectrogram to have fixed
     length t. Either truncate at cutoff if too long
     or add silence if too short.
@@ -43,12 +43,12 @@ def __reshape_spec(spec: np.ndarray, t = 1.5):
         spec {array} -- mel spectrogram
     
     Keyword Arguments:
-        t {float} -- sample length (default: {1.5})
+        time {float} -- sample length (default: {1.5})
     
     Returns:
         array -- fixed length mel spectrogram
     """
-    cutoff = librosa.time_to_frames(t)
+    cutoff = librosa.time_to_frames(time)
     last_frame = len(spec[1])
     if cutoff < last_frame:
         spec = np.delete(spec,slice(cutoff,last_frame),1)
@@ -59,23 +59,50 @@ def __reshape_spec(spec: np.ndarray, t = 1.5):
     
     return spec
 
-def __spec_to_jpg(spec, name):
+def __melspec_to_jpg(spec: np.ndarray):
+    # export plot as jpg
+    # plt.interactive(False)
+    fig = plt.figure(figsize=(5, 5))
+    ax = fig.add_subplot(111)    
+    ax.axes.get_xaxis().set_visible(False)
+    ax.axes.get_yaxis().set_visible(False)
+    ax.set_frame_on(False)
+    plt.legend('',frameon=False)
 
-    
+    spec_dB = librosa.power_to_db(spec, ref=np.max)
+    librosa.display.specshow(spec_dB, x_axis='time',
+                            y_axis='mel', sr=sr,
+                            fmax=20000)
+    plt.tight_layout()
+    # plt.close()    
+    # fig.clf()
+    # plt.close(fig)
+    # plt.close('all')
+    # del fig, ax, spec_dB
+
+    return fig
+
+def __get_file_name(path):
+    # use path to retrieve string for filename
+    # return name, target_path
+    # filename  = '/path/to/dir/' + name + '.jpg'
+    pass
+
 def __plot_spec(spec: np.ndarray):
     """plots for testing purposes.
     
     Arguments:
         spec {array} -- mel spectrogram
     """
-    plt.figure(figsize=(10, 4))
-    S_dB = librosa.power_to_db(spec, ref=np.max)
-    librosa.display.specshow(S_dB, x_axis='time',
+    fig = plt.figure(figsize=(10, 10))
+    spec_dB = librosa.power_to_db(spec, ref=np.max)
+    librosa.display.specshow(spec_dB, x_axis='time',
                             y_axis='mel', sr=sr,
                             fmax=20000)
     plt.colorbar(format='%+2.0f dB')
     plt.title('Mel-frequency spectrogram')
-    plt.tight_layout() 
+
+    return fig
 
 def __get_multiclass_wav(path: str, path2: str):
     wav1 = AudioSegment.from_file(path)
@@ -91,27 +118,12 @@ def __select_wavs(directory: list):
     # prevalance. 
     pass
 
-path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\drum-data-mvp\\rb1.1.wav"
+path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\drum-data-mvp\\rb2.1.wav"
 spec = transform_audio(path)
 wav, sr = librosa.load(path)
-__plot_spec(spec)
+# __plot_spec(spec)
+plot = __melspec_to_jpg(spec)
 
-
-def create_spectrogram(path, name):
-    plt.interactive(False)
-    wav, sample_rate = librosa.load(path, sr=None)
-    fig = plt.figure(figsize=[0.72,0.72])
-    ax = fig.add_subplot(111)
-    ax.axes.get_xaxis().set_visible(False)
-    ax.axes.get_yaxis().set_visible(False)
-    ax.set_frame_on(False)
-    S = librosa.feature.melspectrogram(y=wav, sr=sample_rate)
-    librosa.display.specshow(librosa.power_to_db(S, ref=np.max))
-    filename  = '/kaggle/working/train/' + name + '.jpg'
-    plt.savefig(filename, dpi=400, bbox_inches='tight',pad_inches=0)
-    plt.close()    
-    fig.clf()
-    plt.close(fig)
-    plt.close('all')
+plot
 
 
