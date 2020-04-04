@@ -59,7 +59,7 @@ def __reshape_spec(spec: np.ndarray, t = 1.5):
     
     return spec
 
-def __spec_to_jpg(spec, name):
+#def __spec_to_jpg(spec, name):
 
     
 def __plot_spec(spec: np.ndarray):

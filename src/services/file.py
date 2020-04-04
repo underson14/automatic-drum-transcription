@@ -1,6 +1,5 @@
-from pathlib import Path
 import os
-import constants
+from runtime_constants import runtime_directories
 
 
 def read_folder(path: str):
@@ -11,7 +10,7 @@ def read_folder(path: str):
             filename = os.fsdecode(file)
             if filename.endswith(".wav"):
                 print(file)
-                constants.FILE_PATHS.append(file)
+                runtime_directories.FILE_PATHS.append(file)
                 continue
             else:
                 continue

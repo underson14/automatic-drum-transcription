@@ -1,5 +1,5 @@
 import argparse
-import constants
+from runtime_constants import runtime_directories
 
 
 def handle_args():
@@ -11,4 +11,4 @@ def handle_args():
                                      epilog='Accepts tsv and csv files')
     parser.add_argument('--folder', dest='folder', action='store', required=True)
     args = parser.parse_args()
-    constants.ARG_FOLDER = args.folder
+    runtime_directories.ARG_FOLDER = args.folder
