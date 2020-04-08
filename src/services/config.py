@@ -1,13 +1,12 @@
 import configparser
 import sys
+import os
 
 
 # Config.py
 class Config:
     VERBOSE = 0
     DEBUG = 0
-    DATA_ROOT_DIRECTORY = ''
-    DATA_RAW_DIRECTORY = ''
     DATA_RESULTS_DIRECTORY = ''
 
 
@@ -19,8 +18,6 @@ def read_conf():
     config = configparser.ConfigParser()
     config.read('src/config.ini')
     try:
-        Config.DATA_ROOT_DIRECTORY = config['DATA']['root_directory']
-        Config.DATA_RAW_DIRECTORY = config['DATA']['raw_directory']
         Config.DATA_RESULTS_DIRECTORY = config['DATA']['results_directory']
 
         # Config.FILE_RUNTIME_MEAN_SUMMARY = config['FILE']['runtime_mean_summary_name']
@@ -62,13 +59,18 @@ def validate_config():
         print("Please specify a valid Results directory")
         sys.exit()
 
-    if not Config.DATA_RAW_DIRECTORY:
-        print("Please specify a valid Raw data directory!")
-        sys.exit()
+    #if not Config.DATA_RAW_DIRECTORY:
+     #   print("Please specify a valid Raw data directory!")
+      #  sys.exit()
 
-    if not Config.DATA_ROOT_DIRECTORY:
-        print("Please specify a valid Root Directory!")
-        sys.exit()
+    #if not os.path.exists(Config.DATA_RAW_DIRECTORY):
+     #   print("Could not find ")
+
+    #if not Config.DATA_ROOT_DIRECTORY:
+     #   print("Please specify a valid Root Directory!")
+      #  sys.exit()
+
+    print("Configuration validated!")
 
         # if not Config.FILE_MEMORY_VAR_SUMMARY:
         #print(f"Please specify a valid name for FILE_MEMORY_VAR_SUMMARY ")

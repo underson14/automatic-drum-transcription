@@ -3,9 +3,10 @@ import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
+from runtime_constants import runtime_file
 
 
-def transform_audio(path: str):
+def transform_audio():
     """takes in a raw wav file and returns
     a melspectrogram of fixed length
     
@@ -15,13 +16,13 @@ def transform_audio(path: str):
     Returns:
         array -- melspectrogram of wav file
     """
-    spec = __get_spectrogram(path)
+    spec = __get_spectrogram()
     spec = __reshape_spec(spec)
 
     return spec
 
 
-def __get_spectrogram(path: str):
+def __get_spectrogram():
     """convert wav to spectrogram
     
     Arguments:
@@ -30,7 +31,7 @@ def __get_spectrogram(path: str):
     Returns:
         array -- mel spectrogram
     """
-    wav, sr = librosa.load(path)
+    wav, sr = librosa.load(runtime_file.CURRENT_EVALUATED_FILE_PATH)
     spec = librosa.feature.melspectrogram(y=wav, sr=sr, n_mels=166,
                                           fmax=20000)
 
@@ -125,12 +126,3 @@ def __select_wavs(directory: list):
     # assign discrete probabilty of class selection to reflect
     # prevalance. 
     pass
-
-
-path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\drum-data-mvp\\rb2.1.wav"
-spec = transform_audio(path)
-wav, sr = librosa.load(path)
-# __plot_spec(spec)
-plot = __melspec_to_jpg(spec)
-
-plot

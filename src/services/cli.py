@@ -1,5 +1,6 @@
 import argparse
-from runtime_constants import runtime_directories
+from runtime_constants import cli_args
+from pathlib import Path
 
 
 def handle_args():
@@ -9,6 +10,6 @@ def handle_args():
     """
     parser = argparse.ArgumentParser(description='Creates models to create midi files out of wav files',
                                      epilog='Accepts tsv and csv files')
-    parser.add_argument('--folder', dest='folder', action='store', required=True)
+    parser.add_argument('--folder', dest='folder', action='store', required=True, type=Path)
     args = parser.parse_args()
-    runtime_directories.ARG_FOLDER = args.folder
+    cli_args.CLI_ARG_FOLDER = args.folder

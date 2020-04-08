@@ -1,1 +1,1 @@
-__all__ = ['runtime_directories']
+__all__ = ['runtime_directories', 'cli_args']
