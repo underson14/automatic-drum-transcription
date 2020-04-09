@@ -3,11 +3,10 @@ import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
-from runtime_constants import runtime_file
 
 
-def transform_audio():
-    """takes in a raw wav file and returns
+def transform_audio(path: str):
+    """reads in a raw wav file and returns
     a melspectrogram of fixed length
     
     Arguments:
@@ -16,13 +15,13 @@ def transform_audio():
     Returns:
         array -- melspectrogram of wav file
     """
-    spec = __get_spectrogram()
+    spec = __get_spectrogram(path)
     spec = __reshape_spec(spec)
 
     return spec
 
 
-def __get_spectrogram():
+def __get_spectrogram(path: str):
     """convert wav to spectrogram
     
     Arguments:
@@ -31,7 +30,7 @@ def __get_spectrogram():
     Returns:
         array -- mel spectrogram
     """
-    wav, sr = librosa.load(runtime_file.CURRENT_EVALUATED_FILE_PATH)
+    wav, sr = librosa.load(path)
     spec = librosa.feature.melspectrogram(y=wav, sr=sr, n_mels=166,
                                           fmax=20000)
 
@@ -88,7 +87,7 @@ def __melspec_to_jpg(spec: np.ndarray):
     return fig
 
 
-def __get_file_name(path):
+def __get_file_name(path: str):
     # use path to retrieve string for filename
     # return name, target_path
     # filename  = '/path/to/dir/' + name + '.jpg'
