@@ -2,26 +2,29 @@ import librosa
 import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
-from pydub import AudioSegment
+# from pydub import AudioSegment
+# from runtime_constants import runtime_file
 
-
-def transform_audio(path: str):
+def transform_audio(path = None):
     """reads in a raw wav file and returns
     a melspectrogram of fixed length
     
-    Arguments:
-        path {path/to/wav} -- path to wav
-    
     Returns:
         array -- melspectrogram of wav file
+        image -- matplotlib image of spec
     """
-    spec = __get_spectrogram(path)
+    path = runtime_file.CURRENT_EVALUATED_FILE_PATH
+    spec, sr = __get_spec(path)
+    path = path
+    spec, sr = __get_spec(path)
     spec = __reshape_spec(spec)
+    img = __get_spec_img(spec, sr)
+    # img = __plot_spec(spec, sr)
 
-    return spec
+    return spec, img
 
 
-def __get_spectrogram(path: str):
+def __get_spec(path: str):
     """convert wav to spectrogram
     
     Arguments:
@@ -30,11 +33,11 @@ def __get_spectrogram(path: str):
     Returns:
         array -- mel spectrogram
     """
-    wav, sr = librosa.load(path)
-    spec = librosa.feature.melspectrogram(y=wav, sr=sr, n_mels=166,
+    wav, sr = librosa.load(path, sr = None)
+    spec = librosa.feature.melspectrogram(y=wav, sr=sr, n_mels=88,
                                           fmax=20000)
 
-    return spec
+    return spec, sr
 
 
 def __reshape_spec(spec: np.ndarray, time=1.5):
@@ -63,9 +66,16 @@ def __reshape_spec(spec: np.ndarray, time=1.5):
     return spec
 
 
-def __melspec_to_jpg(spec: np.ndarray):
-    # export plot as jpg
-    # plt.interactive(False)
+def __get_spec_img(spec: np.ndarray, sr: int):
+    """takes in spec data and plots to an image.
+    
+    Arguments:
+        spec {np.ndarray} -- spectrogram data
+        sr {int} -- sample rate
+    
+    Returns:
+        image -- image of spectrogram event
+    """
     fig = plt.figure(figsize=(5, 5))
     ax = fig.add_subplot(111)
     ax.axes.get_xaxis().set_visible(False)
@@ -73,28 +83,16 @@ def __melspec_to_jpg(spec: np.ndarray):
     ax.set_frame_on(False)
     plt.legend('', frameon=False)
 
-    spec_dB = librosa.power_to_db(spec, ref=np.max)
-    librosa.display.specshow(spec_dB, x_axis='time',
+    spec_db = librosa.power_to_db(spec, ref=np.max)
+    librosa.display.specshow(spec_db, x_axis='time',
                              y_axis='mel', sr=sr,
                              fmax=20000)
     plt.tight_layout()
-    # plt.close()    
-    # fig.clf()
-    # plt.close(fig)
-    # plt.close('all')
-    # del fig, ax, spec_dB
 
     return fig
 
 
-def __get_file_name(path: str):
-    # use path to retrieve string for filename
-    # return name, target_path
-    # filename  = '/path/to/dir/' + name + '.jpg'
-    pass
-
-
-def __plot_spec(spec: np.ndarray):
+def __plot_spec(spec: np.ndarray, sr: int):
     """plots for testing purposes.
     
     Arguments:
@@ -111,17 +109,6 @@ def __plot_spec(spec: np.ndarray):
     return fig
 
 
-def __get_multiclass_wav(path: str, path2: str):
-    wav1 = AudioSegment.from_file(path)
-    wav2 = AudioSegment.from_file(path2)
 
-    combined = wav1.overlay(wav2)
-
-    combined.export("/path/to/combined.wav", format='wav')
-
-
-def __select_wavs(directory: list):
-    # randomly select two wavs of different class type.
-    # assign discrete probabilty of class selection to reflect
-    # prevalance. 
-    pass
+# path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\raw-data-test\\kick\\BK1-KICK 8.wav"
+# spec, img = transform_audio(path)
