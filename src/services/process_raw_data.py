@@ -1,9 +1,10 @@
+import os
 import librosa
 import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
 # from pydub import AudioSegment
-# from runtime_constants import runtime_file
+from runtime_constants import runtime_file
 
 def transform_audio(path = None):
     """reads in a raw wav file and returns
@@ -13,13 +14,14 @@ def transform_audio(path = None):
         array -- melspectrogram of wav file
         image -- matplotlib image of spec
     """
-    path = runtime_file.CURRENT_EVALUATED_FILE_PATH
+    # path = runtime_file.CURRENT_EVALUATED_FILE_PATH
+    path = path
     spec, sr = __get_spec(path)
     path = path
     spec, sr = __get_spec(path)
     spec = __reshape_spec(spec)
     img = __get_spec_img(spec, sr)
-    # img = __plot_spec(spec, sr)
+    img = __plot_spec(spec, sr)
 
     return spec, img
 
@@ -92,6 +94,9 @@ def __get_spec_img(spec: np.ndarray, sr: int):
     return fig
 
 
+def _save_img(path, img: np.ndarray):
+    pass
+
 def __plot_spec(spec: np.ndarray, sr: int):
     """plots for testing purposes.
     
@@ -108,7 +113,12 @@ def __plot_spec(spec: np.ndarray, sr: int):
 
     return fig
 
+def __get_new_path(path: str):
+    filename = os.path.basename(path)
+    dir_path = os.path.dirname(os.path.abspath(path))   
+    new_path = dir_path + filename
+    
+    return new_path
 
-
-# path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\raw-data-test\\kick\\BK1-KICK 8.wav"
-# spec, img = transform_audio(path)
+path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\raw-data-test\\kick\\BK1-KICK 8.wav"
+spec, img = transform_audio(path)
