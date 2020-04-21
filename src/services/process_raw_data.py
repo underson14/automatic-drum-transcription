@@ -14,17 +14,18 @@ def transform_audio(path = None):
         array -- melspectrogram of wav file
         image -- matplotlib image of spec
     """
-    # path = runtime_file.CURRENT_EVALUATED_FILE_PATH
-    path = path
-    spec, sr = __get_spec(path)
-    path = path
+    path = runtime_file.CURRENT_EVALUATED_FILE_PATH + '.wav'
+    # path = path
     spec, sr = __get_spec(path)
     spec = __reshape_spec(spec)
-    img = __get_spec_img(spec, sr)
-    img = __plot_spec(spec, sr)
+    fig = __get_spec_fig(spec, sr)
+    new_path = __get_new_path(path)
+    ## __plot_spec() for testing only
+    # fig = __plot_spec(spec, sr)
+    
+    __save_fig(new_path, fig)
 
-    return spec, img
-
+    return spec, fig, new_path
 
 def __get_spec(path: str):
     """convert wav to spectrogram
@@ -68,7 +69,7 @@ def __reshape_spec(spec: np.ndarray, time=1.5):
     return spec
 
 
-def __get_spec_img(spec: np.ndarray, sr: int):
+def __get_spec_fig(spec: np.ndarray, sr: int):
     """takes in spec data and plots to an image.
     
     Arguments:
@@ -93,10 +94,6 @@ def __get_spec_img(spec: np.ndarray, sr: int):
 
     return fig
 
-
-def _save_img(path, img: np.ndarray):
-    pass
-
 def __plot_spec(spec: np.ndarray, sr: int):
     """plots for testing purposes.
     
@@ -115,10 +112,15 @@ def __plot_spec(spec: np.ndarray, sr: int):
 
 def __get_new_path(path: str):
     filename = os.path.basename(path)
+    filename = os.path.splitext(filename)[0] + '.png'
     dir_path = os.path.dirname(os.path.abspath(path))   
     new_path = dir_path + filename
     
     return new_path
 
-path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\raw-data-test\\kick\\BK1-KICK 8.wav"
-spec, img = transform_audio(path)
+def __save_fig(new_path: str, fig):
+    fig.savefig('new_path', bbox_inches='tight')
+
+# path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\raw-data-test\\kick\\BK1-KICK 8.wav"
+transform_audio()
+
