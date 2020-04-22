@@ -122,6 +122,7 @@ def __get_new_path(path: str):
 
 def __save_fig(new_path: str, fig):
     fig.savefig(new_path, bbox_inches='tight')
+    plt.close(fig)
 
 # path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\raw-data-test\\kick\\BK1-KICK 8.wav"
 
