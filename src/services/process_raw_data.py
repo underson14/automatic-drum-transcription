@@ -80,7 +80,7 @@ def __get_spec_fig(spec: np.ndarray, sr: int):
     Returns:
         image -- image of spectrogram event
     """
-    fig = plt.figure(figsize=(5, 5))
+    fig = plt.figure(figsize=(2.34, 2.34))
     ax = fig.add_subplot(111)
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
