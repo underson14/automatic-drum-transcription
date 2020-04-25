@@ -20,8 +20,7 @@ def read_conf():
     config.read('src/config.ini')
     try:
         Config.DATA_RESULTS_DIRECTORY = config['DATA']['results_directory']
-        Config.CONVERT_TO_PNG = bool(config['GENERAL']['convert_to_png'])
-
+        Config.CONVERT_TO_PNG = bool(int(config['GENERAL']['convert_to_png']))
         validate_config()
         return True
     except KeyError as ex:

@@ -7,3 +7,4 @@ __pycache__
 _DS_Store
 start.sh
 start.bat
+*.png
