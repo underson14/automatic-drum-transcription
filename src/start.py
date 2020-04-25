@@ -10,15 +10,17 @@ if __name__ == '__main__':
     cli.handle_args()
     config.read_conf()
     file.get_file_names_from_folder(cli_args.CLI_ARG_FOLDER)
-    for file in runtime_directories.FILE_PATHS:
-        try:
-            runtime_file.CURRENT_EVALUATED_FILE_PATH = Path.joinpath(cli_args.CLI_ARG_FOLDER, file)
-            print(runtime_file.CURRENT_EVALUATED_FILE_PATH)
-            print(str(cli_args.CLI_ARG_FOLDER))
-            process_raw_data.transform_audio()
-        except:
-            print(f"Could not process file {runtime_file.CURRENT_EVALUATED_FILE_PATH}")
-            continue
+
+    if config.Config.CONVERT_TO_PNG:
+        for file in runtime_directories.FILE_PATHS:
+            try:
+                runtime_file.CURRENT_EVALUATED_FILE_PATH = Path.joinpath(cli_args.CLI_ARG_FOLDER, file)
+                print(runtime_file.CURRENT_EVALUATED_FILE_PATH)
+                print(str(cli_args.CLI_ARG_FOLDER))
+                process_raw_data.transform_audio()
+            except BaseException as ex:
+                print(f"Could not process file {runtime_file.CURRENT_EVALUATED_FILE_PATH}")
+                continue
 
     input()
     # wave to spectrogram logic
