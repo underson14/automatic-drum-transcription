@@ -1,28 +1,36 @@
-from services import config, cli, file, process_raw_data
-from runtime_constants import runtime_directories, cli_args, runtime_file
+from services import config, cli, fileservice, process_raw_data
 import os
+from services import PreProcessing
+import sys
+import signal
 
 dirname = os.path.dirname(__file__)
-from pathlib import Path
+
+
+def signal_handler(sig, frame):
+    print('Shutting down gracefully!')
+    print("Deleting working directory")
+    print("Done")
+    print("Bye")
+    raise SystemExit
+
+
+signal.signal(signal.SIGINT, signal_handler)
 
 if __name__ == '__main__':
-    print("Starting...")
     cli.handle_args()
     config.read_conf()
-    file.get_file_names_from_folder(cli_args.CLI_ARG_FOLDER)
+
+    # Gather all png files for all subfolders in root directory
+    fileservice.gather_wav_files()
 
     if config.Config.CONVERT_TO_PNG:
-        for file in runtime_directories.FILE_PATHS:
-            try:
-                runtime_file.CURRENT_EVALUATED_FILE_PATH = Path.joinpath(cli_args.CLI_ARG_FOLDER, file)
-                print(runtime_file.CURRENT_EVALUATED_FILE_PATH)
-                print(str(cli_args.CLI_ARG_FOLDER))
-                process_raw_data.transform_audio()
-            except BaseException as ex:
-                print(f"Could not process file {runtime_file.CURRENT_EVALUATED_FILE_PATH}")
-                continue
+        PreProcessing.create_png_files()
 
-    input()
+    # Gather all png files for the root directory and all included subfolders
+    fileservice.gather_png_files()
+    # All png file names loaded, sorted per subfolder. Use at will^^
+
     # wave to spectrogram logic
     #
     exit(0)
