@@ -5,11 +5,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
 # from pydub import AudioSegment
-from runtime_constants import runtime_file
-from runtime_constants import  cli_args
+from runtime_constants import runtime_file, runtime_directories
+from services import fileservice
 
 
-def transform_audio(path = None):
+def transform_audio():
     """reads in a raw wav file and returns
     a melspectrogram of fixed length
     
@@ -18,15 +18,14 @@ def transform_audio(path = None):
         image -- matplotlib image of spec
     """
     path = runtime_file.CURRENT_EVALUATED_FILE_PATH
-    # path = path
     spec, sr = __get_spec(path)
     spec = __reshape_spec(spec)
     fig = __get_spec_fig(spec, sr)
-    new_path = __get_new_path(path)
-    ## __plot_spec() for testing only
+    # new_path = __get_new_path(path)
+    # plot_spec() for testing only
     # fig = __plot_spec(spec, sr)
-    
-    __save_fig(new_path, fig)
+    __save_fig(path, fig)
+
 
 def __get_spec(path: str):
     """convert wav to spectrogram
@@ -37,7 +36,7 @@ def __get_spec(path: str):
     Returns:
         array -- mel spectrogram
     """
-    wav, sr = librosa.load(path, sr = None)
+    wav, sr = librosa.load(path, sr=None)
     spec = librosa.feature.melspectrogram(y=wav, sr=sr, n_mels=88,
                                           fmax=20000)
 
@@ -95,6 +94,7 @@ def __get_spec_fig(spec: np.ndarray, sr: int):
 
     return fig
 
+
 def __plot_spec(spec: np.ndarray, sr: int):
     """plots for testing purposes.
     
@@ -111,21 +111,7 @@ def __plot_spec(spec: np.ndarray, sr: int):
 
     return fig
 
-def __get_new_path(path: str):
-    # filename = os.path.basename(path)
-    filename = Path(path).stem + '.png'
-    new_path = Path(str(cli_args.CLI_ARG_FOLDER), filename)
 
-    print(filename)
-
-    return new_path
-
-def __save_fig(new_path: str, fig):
-    fig.savefig(new_path, bbox_inches='tight')
+def __save_fig(file: str, fig):
+    fig.savefig(fileservice.get_file_name(file), bbox_inches='tight')
     plt.close(fig)
-
-# path = "C:\\Users\\Christian\\Documents\\GitHub\\automatic-drum-transcription\\data\\raw-data-test\\kick\\BK1-KICK 8.wav"
-
-
-
-

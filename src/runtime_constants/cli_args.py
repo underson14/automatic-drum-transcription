@@ -1,2 +1,3 @@
+# ALl arguments which are passed to the tool
 CLI_ARGS = ''
-CLI_ARG_FOLDER = ''
+
