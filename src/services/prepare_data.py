@@ -1,9 +1,5 @@
-# import keras
-# from keras.models import Sequential
-# from keras.layers import Dense, Conv2D, MaxPool2D , Flatten
-# from keras.preprocessing.image import ImageDataGenerator
 import os
-import cv2
+import imageio
 from matplotlib import pyplot as plt
 import numpy as np
 from runtime_constants import runtime_file, runtime_directories
@@ -23,20 +19,23 @@ def prepare():
             print(f"Preparing sub directory {folder}.")
             class_num = 0
             for file in files:
+                print('isFile:', os.path.isfile(runtime_file.CURRENT_EVALUATED_FILE_PATH))
                 try:
                     runtime_file.CURRENT_EVALUATED_FILE_PATH = Path.joinpath(
                         runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY, folder, file)
-                    print(runtime_file.CURRENT_EVALUATED_FILE_PATH)
-                    img_array = cv2.imread(r'runtime_file.CURRENT_EVALUATED_FILE_PATH')
+
+                    img_array = imageio.imread(r'runtime_file.CURRENT_EVALUATED_FILE_PATH')
                     training_data.append([img_array,class_num])
-                    # print(f'Sucessfully prepared {file}.')
+                    print(img_array)
+                    print(f'Sucessfully prepared {file}.')
                 except:
-                    print(f'could not perpare file {file}')
+                    print(f'could not prepare file {file}')
                     
             class_num += 1
         except:
             print(f'could not prepare folder {folder}')
     
+
     try:
         np.random.shuffle(training_data)            
         
@@ -47,9 +46,11 @@ def prepare():
             X.append(features)
             y.append(labels)
         
-        print('Prepare datset successful')
+        print('Sucessfully prepared dataset')
+        print('X:', len(X), 'y:', len(y))
+        
         return X, y
-    
+
     except:
         print('Could not prepare dataset')
 
