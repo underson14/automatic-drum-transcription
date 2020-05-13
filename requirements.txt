@@ -16,3 +16,4 @@ pydub==0.23.1
 keras==2.3.1 
 imageio==2.8.0
 wheel==0.34.2
+tensorflow==1.14
