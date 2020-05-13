@@ -8,3 +8,4 @@ _DS_Store
 start.sh
 start.bat
 *.png
+*.ini
