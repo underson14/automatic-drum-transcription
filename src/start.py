@@ -1,6 +1,6 @@
 from services import config, cli, fileservice, process_raw_data
 import os
-from services import PreProcessing
+from services import PreProcessing, prepare_data, model
 import sys
 import signal
 
@@ -31,6 +31,7 @@ if __name__ == '__main__':
     fileservice.gather_png_files()
     # All png file names loaded, sorted per subfolder. Use at will^^
 
-    # wave to spectrogram logic
-    #
+    # png to array 
+    # prepare_data.prepare()
+    model.build_model()
     exit(0)
