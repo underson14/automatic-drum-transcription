@@ -4,7 +4,7 @@
 
 1. Clone or download the project
 2. Rename the start script for your operation system and remove the .dist
-    Example for windows users: start.bat.dist should be renamed to shart.bat.
+    Example for windows users: start.bat.dist should be renamed to start.bat.
 3. Open the start script and change the python3 call to the correct one for your system.  
 If you use python3 to call python3.x leave it, if you use python to call python3.x change it.
 4. Start the application using the startscript and adding a path as argument.  
