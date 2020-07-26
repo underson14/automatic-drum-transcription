@@ -2,6 +2,7 @@ cycler==0.10.0
 joblib==0.14.1
 kiwisolver==1.1.0
 matplotlib==3.2.0
+numba==0.48.0
 numpy==1.18.1
 pandas==1.0.1
 pyparsing==2.4.6
@@ -17,4 +18,3 @@ tensorflow==2.2.0
 keras==2.3.1 
 imageio==2.8.0
 wheel==0.34.2
-

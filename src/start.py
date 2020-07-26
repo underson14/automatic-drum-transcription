@@ -33,5 +33,6 @@ if __name__ == '__main__':
 
     # png to array 
     # prepare_data.prepare()
+    # model.build_datasets()
     model.build_model()
     exit(0)

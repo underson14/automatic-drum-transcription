@@ -7,7 +7,7 @@ import os
 class Config:
     VERBOSE = 0
     DEBUG = 0
-    CONVERT_TO_PNG = False
+    CONVERT_TO_PNG = True
 
 
 def read_conf():
@@ -18,7 +18,7 @@ def read_conf():
     config = configparser.ConfigParser()
     config.read('src/config.ini')
     try:
-        Config.CONVERT_TO_PNG = bool(int(config['GENERAL']['convert_to_png']))
+        Config.CONVERT_TO_PNG = False
         validate_config()
         return True
     except KeyError as ex:

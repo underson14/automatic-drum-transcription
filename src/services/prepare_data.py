@@ -14,19 +14,19 @@ def prepare():
     training_data = []
 
     print('Preparing training data')
+    class_num = 0
     for folder, files in runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY_SUB_FOLDER_PNG_DATA.items(): 
         try:
             print(f"Preparing sub directory {folder}.")
-            class_num = 0
             for file in files:
                 print('isFile:', os.path.isfile(runtime_file.CURRENT_EVALUATED_FILE_PATH))
                 try:
                     runtime_file.CURRENT_EVALUATED_FILE_PATH = Path.joinpath(
                         runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY, folder, file)
 
-                    img_array = imageio.imread(r'runtime_file.CURRENT_EVALUATED_FILE_PATH')
+                    img_array = imageio.imread(runtime_file.CURRENT_EVALUATED_FILE_PATH)
                     training_data.append([img_array,class_num])
-                    print(img_array)
+                    # print(img_array)
                     print(f'Sucessfully prepared {file}.')
                 except:
                     print(f'could not prepare file {file}')
@@ -34,7 +34,6 @@ def prepare():
             class_num += 1
         except:
             print(f'could not prepare folder {folder}')
-    
 
     try:
         np.random.shuffle(training_data)            
@@ -48,7 +47,9 @@ def prepare():
         
         print('Sucessfully prepared dataset')
         print('X:', len(X), 'y:', len(y))
-        
+        X = np.asarray(X)
+        y = np.asarray(y)
+
         return X, y
 
     except:
