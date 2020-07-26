@@ -1,5 +1,6 @@
 import os
 import imageio
+import pandas as pd
 from matplotlib import pyplot as plt
 import numpy as np
 from runtime_constants import runtime_file, runtime_directories
@@ -49,6 +50,13 @@ def prepare():
         print('X:', len(X), 'y:', len(y))
         X = np.asarray(X)
         y = np.asarray(y)
+
+        # print(y)
+        y_df = pd.Series(y)
+        y_df = pd.get_dummies(y_df)
+        print('dataframe', y_df)
+        y = np.asarray(y_df)
+        print(y.shape)
 
         return X, y
 
