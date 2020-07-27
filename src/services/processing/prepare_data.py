@@ -4,11 +4,12 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import numpy as np
 from runtime_constants import runtime_file, runtime_directories
-from services import fileservice
+from services.file_system import file_service
 from pathlib import Path
-from PIL import Image                   
+from PIL import Image
 from skimage import color
 from skimage import io
+from services.configuration.config import Config
 
 
 def prepare():
@@ -20,14 +21,14 @@ def prepare():
 
     print('Preparing training data')
     label = 0
-    for folder, files in runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY_SUB_FOLDER_PNG_DATA.items(): 
+    for folder, files in runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY_SUB_FOLDER_PNG_DATA.items():
         try:
             print(f"Preparing sub directory {folder}.")
             for file in files:
                 print('isFile:', os.path.isfile(runtime_file.CURRENT_EVALUATED_FILE_PATH))
                 try:
                     runtime_file.CURRENT_EVALUATED_FILE_PATH = Path.joinpath(
-                        runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY, folder, file)
+                        Config.ROOT_FOLDER, folder, file)
 
                     # using imageio to read in RGBA img data
                     # img_array = imageio.imread(runtime_file.CURRENT_EVALUATED_FILE_PATH)
@@ -35,29 +36,29 @@ def prepare():
 
                     # use skimage to read in Grayscale img data
                     img_array = color.rgb2gray(io.imread(runtime_file.CURRENT_EVALUATED_FILE_PATH))
-                    dataset.append([img_array,label])
+                    dataset.append([img_array, label])
 
                     # print('img array:', img_array)
                     # print('array shape:', img_array.shape)
                     print(f'Sucessfully prepared {file}.')
                 except:
                     print(f'could not prepare file {file}')
-                    
+
             label += 1
         except:
             print(f'could not prepare folder {folder}')
 
     try:
         # randomize data order
-        np.random.shuffle(dataset)            
+        np.random.shuffle(dataset)
 
-        img_arrays = [] 
+        img_arrays = []
         labels = []
 
         for img_array, label in dataset:
             img_arrays.append(img_array)
             labels.append(label)
-        
+
         print('Sucessfully prepared dataset')
         print('X:', len(img_arrays), 'y:', len(labels))
 
@@ -74,5 +75,3 @@ def prepare():
 
     except:
         print('Could not prepare dataset')
-
-

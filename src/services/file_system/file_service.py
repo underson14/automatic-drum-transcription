@@ -1,5 +1,6 @@
 import os
 from runtime_constants import runtime_directories
+from services.configuration.config import Config
 import pandas as pd
 from pathlib import Path
 
@@ -10,7 +11,7 @@ def gather_wav_files():
     Returns:
 
     """
-    for root, dirs, files in os.walk(runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY):
+    for root, dirs, files in os.walk(Config.ROOT_FOLDER):
         for sub_folder in dirs:
             runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY_SUB_FOLDER_WAV_DATA[
                 sub_folder] = wav_files_per_sub(sub_folder)
@@ -22,7 +23,7 @@ def gather_png_files():
     Returns:
 
     """
-    for root, dirs, files in os.walk(runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY):
+    for root, dirs, files in os.walk(Config.ROOT_FOLDER):
         for sub_folder in dirs:
             runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY_SUB_FOLDER_PNG_DATA[
                 sub_folder] = png_files_per_sub(sub_folder)
@@ -38,7 +39,7 @@ def wav_files_per_sub(sub_directory_path: str):
 
     """
     try:
-        path = Path(f"{runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY}/{sub_directory_path}")
+        path = Path(f"{Config.ROOT_FOLDER}/{sub_directory_path}")
         files = []
         for file in os.listdir(path):
             filename = os.fsdecode(file)
@@ -63,7 +64,7 @@ def png_files_per_sub(sub_directory_path: str):
 
     """
     try:
-        path = Path(f"{runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY}/{sub_directory_path}")
+        path = Path(f"{Config.ROOT_FOLDER}/{sub_directory_path}")
         files = []
         for file in os.listdir(path):
             filename = os.fsdecode(file)
@@ -92,7 +93,7 @@ def read_file(path: str):
 
     """
     try:
-        path = Path.joinpath(runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY, path)
+        path = Path.joinpath(Config.ROOT_FOLDER, path)
         print(path)
         df = pd.read_csv(path)
         return df

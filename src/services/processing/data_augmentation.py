@@ -1,5 +1,6 @@
 from pydub import AudioSegment
 
+
 def __get_multiclass_wav(path: str, path2: str):
     wav1 = AudioSegment.from_file(path)
     wav2 = AudioSegment.from_file(path2)

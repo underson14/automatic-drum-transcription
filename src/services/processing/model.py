@@ -3,7 +3,7 @@ import pandas as pd
 from keras.models import Sequential
 from keras.layers import Dense, Conv2D, MaxPool2D, Flatten
 from keras.preprocessing.image import ImageDataGenerator
-from services import prepare_data
+from services.processing import prepare_data
 import numpy as np
 from collections import Counter
 

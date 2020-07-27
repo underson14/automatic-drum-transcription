@@ -1,5 +1,5 @@
 import argparse
-from runtime_constants import cli_args, runtime_directories
+from services.configuration.config import Config
 from pathlib import Path
 
 
@@ -12,4 +12,5 @@ def handle_args():
                                      epilog='Accepts tsv and csv files')
     parser.add_argument('--folder', dest='folder', action='store', required=True, type=Path)
     args = parser.parse_args()
-    runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY = args.folder
+
+    Config.ROOT_FOLDER = args.folder

@@ -9,6 +9,9 @@ class Config:
     DEBUG = 0
     CONVERT_TO_PNG = True
 
+    # Files
+    ROOT_FOLDER = ''
+
 
 def read_conf():
     """
@@ -19,6 +22,10 @@ def read_conf():
     config.read('src/config.ini')
     try:
         Config.CONVERT_TO_PNG = False
+
+        # File
+        Config.FILE_ROOT = ''
+
         validate_config()
         return True
     except KeyError as ex:

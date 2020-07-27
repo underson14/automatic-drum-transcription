@@ -1,7 +1,7 @@
-from runtime_constants import runtime_directories, cli_args, runtime_file
+from runtime_constants import runtime_directories, runtime_file
 from pathlib import Path
-from services import process_raw_data
-
+from services.processing import process_raw_data
+from services.configuration.config import Config
 
 def create_png_files():
     """
@@ -15,7 +15,7 @@ def create_png_files():
             for file in files:
                 try:
                     runtime_file.CURRENT_EVALUATED_FILE_PATH = Path.joinpath(
-                        runtime_directories.CURRENT_EVALUATED_ROOT_DIRECTORY, folder, file)
+                        Config.ROOT_FOLDER, folder, file)
                     runtime_directories.CURRENT_EVALUATED_SUB_DIRECTORY = folder
                     process_raw_data.transform_audio()
                     print(f"File {file} successfully processed!")

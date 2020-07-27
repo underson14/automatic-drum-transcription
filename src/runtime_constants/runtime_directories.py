@@ -1,8 +1,6 @@
 from pathlib import Path
 from collections import defaultdict
 
-# The current root directory one provided. Like /drums
-CURRENT_EVALUATED_ROOT_DIRECTORY = Path()
 # The current evaluated sub directory. This changes according the directory the algorithm is evaluating.
 # e.g. /drums/hi-hat
 CURRENT_EVALUATED_SUB_DIRECTORY = Path()
