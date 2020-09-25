@@ -13,7 +13,7 @@ six==1.14.0
 librosa==0.7.2
 ffmpeg==1.4
 pydub==0.23.1
-tensorflow==2.2.0
+tensorflow==2.2.1
 keras==2.3.1 
 imageio==2.8.0
 wheel==0.34.2
