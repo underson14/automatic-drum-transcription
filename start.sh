@@ -11,7 +11,8 @@ if command -v python3 &>/dev/null; then
         echo OK
         source venv/bin/activate
         pip install --upgrade pip
-        pip install numba==0.48.0
+        pip install numba==0.43.0 --user
+        pip install llvmlite==0.32.1 --user
         pip install -r /content/automatic-drum-transcription/requirements.txt
         python3 /content/automatic-drum-transcription/src/start.py --folder=$1
     else
