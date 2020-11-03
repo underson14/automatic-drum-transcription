@@ -1,5 +1,5 @@
-from services import config, cli, fileservice, process_raw_data
 import os
+from services import config, cli, fileservice, process_raw_data
 from services import PreProcessing, prepare_data, model
 import sys
 import signal
