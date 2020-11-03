@@ -1,5 +1,5 @@
 #!/bin/bash
-apt-get install python3-venv
+#apt-get install python3-venv
 echo "Checking Python version..."
 
 if command -v python3.6 &>/dev/null; then
@@ -10,7 +10,7 @@ if command -v python3.6 &>/dev/null; then
     if [ $? -eq 0 ]; then
         echo OK
         source venv/bin/activate
-        pip install --upgrade pip --use-feature=2020-resolver
+        pip install --upgrade pip
         pip install ipykernel --use-feature=2020-resolver
         pip install numba==0.43.0 --use-feature=2020-resolver
         pip install llvmlite==0.32.1 --use-feature=2020-resolver
